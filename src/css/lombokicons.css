@@ -1,0 +1,154 @@
+/*!
+ * LombokIcons v0.1.0
+ * https://github.com/codinglombok/LombokIcons
+ * Copyright (c) 2026 codinglombok
+ * Licensed under Apache-2.0
+ */
+
+/* ═══════════════════════════════════════════════════
+   ROOT TOKENS
+   ═══════════════════════════════════════════════════ */
+:root {
+  --lf-size: 1.25em;
+  --lf-color: currentColor;
+  --lf-stroke: 1.5;
+  --lf-duo: currentColor;
+  --lf-duo-opacity: 0.32;
+}
+
+/* ═══════════════════════════════════════════════════
+   BASE ICON
+   ═══════════════════════════════════════════════════ */
+.lf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--lf-size);
+  height: var(--lf-size);
+  vertical-align: -0.125em;
+  flex-shrink: 0;
+}
+
+.lf svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--lf-color);
+  stroke-width: var(--lf-stroke);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Duo mode: accent layer */
+.lf svg .lf-accent {
+  stroke: none;
+  fill: var(--lf-duo);
+  opacity: var(--lf-duo-opacity);
+}
+
+/* Bold mode: filled accent */
+.lf svg .lf-bold-fill {
+  fill: var(--lf-color);
+  stroke: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   SIZE SCALE
+   ═══════════════════════════════════════════════════ */
+.lf-xs  { --lf-size: 0.75rem; }   /* 12px */
+.lf-sm  { --lf-size: 1rem; }      /* 16px */
+.lf-md  { --lf-size: 1.25rem; }   /* 20px */
+.lf-lg  { --lf-size: 1.5rem; }    /* 24px */
+.lf-xl  { --lf-size: 2rem; }      /* 32px */
+.lf-2xl { --lf-size: 3rem; }      /* 48px */
+.lf-3xl { --lf-size: 4rem; }      /* 64px */
+
+/* ═══════════════════════════════════════════════════
+   STROKE WEIGHT MODIFIERS
+   ═══════════════════════════════════════════════════ */
+.lf-thin   { --lf-stroke: 1; }
+.lf-normal { --lf-stroke: 1.5; }
+.lf-bold   { --lf-stroke: 2; }
+.lf-heavy  { --lf-stroke: 2.5; }
+
+/* ═══════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════ */
+@keyframes lf-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes lf-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+@keyframes lf-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-25%); }
+}
+@keyframes lf-shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-3px) rotate(-5deg); }
+  75%      { transform: translateX(3px) rotate(5deg); }
+}
+@keyframes lf-ring {
+  0%   { transform: rotate(0); }
+  10%  { transform: rotate(15deg); }
+  20%  { transform: rotate(-10deg); }
+  30%  { transform: rotate(8deg); }
+  40%  { transform: rotate(-5deg); }
+  50%  { transform: rotate(3deg); }
+  60%  { transform: rotate(0); }
+  100% { transform: rotate(0); }
+}
+
+.lf-spin   { animation: lf-spin 1s linear infinite; }
+.lf-pulse  { animation: lf-pulse 2s ease-in-out infinite; }
+.lf-bounce { animation: lf-bounce 1s ease infinite; }
+.lf-shake  { animation: lf-shake 0.5s ease-in-out infinite; }
+.lf-ring   { animation: lf-ring 1.5s ease infinite; transform-origin: top center; }
+
+/* Respects reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .lf-spin,
+  .lf-pulse,
+  .lf-bounce,
+  .lf-shake,
+  .lf-ring {
+    animation: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   ROTATION UTILITIES
+   ═══════════════════════════════════════════════════ */
+.lf-rotate-45  { transform: rotate(45deg); }
+.lf-rotate-90  { transform: rotate(90deg); }
+.lf-rotate-180 { transform: rotate(180deg); }
+.lf-rotate-270 { transform: rotate(270deg); }
+.lf-flip-h     { transform: scaleX(-1); }
+.lf-flip-v     { transform: scaleY(-1); }
+
+/* ═══════════════════════════════════════════════════
+   BADGE / STACK UTILITIES
+   ═══════════════════════════════════════════════════ */
+.lf-stack {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--lf-size);
+  height: var(--lf-size);
+}
+
+.lf-stack .lf {
+  position: absolute;
+}
+
+.lf-stack .lf-stack-bg {
+  --lf-size: 100%;
+}
+
+.lf-stack .lf-stack-fg {
+  --lf-size: 60%;
+}

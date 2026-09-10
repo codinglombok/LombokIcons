@@ -1,0 +1,367 @@
+{
+  "$schema": "LombokIcons Icon Registry v1",
+  "meta": {
+    "viewBox": "0 0 24 24",
+    "strokeWidth": 1.5,
+    "strokeLinecap": "round",
+    "strokeLinejoin": "round",
+    "fill": "none"
+  },
+  "categories": {
+    "navigation": ["home", "menu", "search", "arrow-up", "arrow-down", "arrow-left", "arrow-right", "chevron-up", "chevron-down", "chevron-left", "chevron-right", "external-link"],
+    "action": ["plus", "minus", "x", "check", "edit", "trash", "copy", "download", "upload", "refresh", "filter", "sort"],
+    "content": ["file", "file-text", "folder", "image", "video", "music", "link", "bookmark", "tag", "clipboard"],
+    "communication": ["mail", "send", "message", "phone", "bell", "chat"],
+    "interface": ["settings", "user", "users", "lock", "unlock", "eye", "eye-off", "star", "heart", "info", "warning", "help"],
+    "device": ["monitor", "smartphone", "globe", "wifi", "cloud", "database", "code", "terminal"],
+    "layout": ["grid", "list", "layers", "sidebar", "maximize", "minimize"],
+    "time": ["clock", "calendar", "timer"]
+  },
+  "icons": {
+    "home": {
+      "line": "M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z",
+      "bold_accent": "M9 21v-6h6v6",
+      "duo_accent": "M9 15h6v6H9z"
+    },
+    "menu": {
+      "line": "M4 6h16M4 12h16M4 18h16",
+      "bold_accent": null,
+      "duo_accent": "M4 12h16"
+    },
+    "search": {
+      "line": "M11 4a7 7 0 110 14 7 7 0 010-14zM20 20l-3.5-3.5",
+      "bold_accent": null,
+      "duo_accent": "M11 4a7 7 0 110 14 7 7 0 010-14z"
+    },
+    "arrow-up": {
+      "line": "M12 20V4m0 0l-7 7m7-7l7 7",
+      "bold_accent": null,
+      "duo_accent": "M12 4l-7 7h14z"
+    },
+    "arrow-down": {
+      "line": "M12 4v16m0 0l7-7m-7 7l-7-7",
+      "bold_accent": null,
+      "duo_accent": "M12 20l7-7H5z"
+    },
+    "arrow-left": {
+      "line": "M20 12H4m0 0l7-7m-7 7l7 7",
+      "bold_accent": null,
+      "duo_accent": "M4 12l7-7v14z"
+    },
+    "arrow-right": {
+      "line": "M4 12h16m0 0l-7-7m7 7l-7 7",
+      "bold_accent": null,
+      "duo_accent": "M20 12l-7-7v14z"
+    },
+    "chevron-up": {
+      "line": "M6 15l6-6 6 6",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "chevron-down": {
+      "line": "M6 9l6 6 6-6",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "chevron-left": {
+      "line": "M15 6l-6 6 6 6",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "chevron-right": {
+      "line": "M9 6l6 6-6 6",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "external-link": {
+      "line": "M18 13v6a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h6m4-3h6v6m0-6L10 14",
+      "bold_accent": null,
+      "duo_accent": "M5 6h12v13H5z"
+    },
+    "plus": {
+      "line": "M12 5v14m-7-7h14",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "minus": {
+      "line": "M5 12h14",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "x": {
+      "line": "M18 6L6 18M6 6l12 12",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "check": {
+      "line": "M20 6L9 17l-5-5",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "edit": {
+      "line": "M11 4H4a1 1 0 00-1 1v14a1 1 0 001 1h14a1 1 0 001-1v-7m-1.5-9.5a2.12 2.12 0 013 3L11 16l-4 1 1-4z",
+      "bold_accent": "M16.5 3.5a2.12 2.12 0 013 3l-1.5 1.5-3-3z",
+      "duo_accent": "M4 4h7L4 11v-7z"
+    },
+    "trash": {
+      "line": "M3 6h18m-2 0v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2m-6 5v6m4-6v6",
+      "bold_accent": null,
+      "duo_accent": "M5 6h14v12a2 2 0 01-2 2H7a2 2 0 01-2-2z"
+    },
+    "copy": {
+      "line": "M8 8V5a1 1 0 011-1h10a1 1 0 011 1v10a1 1 0 01-1 1h-3M4 9h10a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V10a1 1 0 011-1z",
+      "bold_accent": null,
+      "duo_accent": "M8 4h11a1 1 0 011 1v11"
+    },
+    "download": {
+      "line": "M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m5-4l4 4 4-4m-4 4V3",
+      "bold_accent": null,
+      "duo_accent": "M3 15h18v4a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+    },
+    "upload": {
+      "line": "M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m14-6l-4-4-4 4m4-4v12",
+      "bold_accent": null,
+      "duo_accent": "M3 15h18v4a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+    },
+    "refresh": {
+      "line": "M1 4v6h6m16 10v-6h-6M20.5 9A9 9 0 005.6 5.6L1 10m22 4l-4.6 4.4A9 9 0 013.5 15",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "filter": {
+      "line": "M3 4h18l-7 8.5V18l-4 2v-7.5z",
+      "bold_accent": null,
+      "duo_accent": "M3 4h18l-7 8.5V18l-4 2v-7.5z"
+    },
+    "sort": {
+      "line": "M3 6h7m-7 6h5m-5 6h3m5-2l4 4 4-4m-4 4V4",
+      "bold_accent": null,
+      "duo_accent": "M16 4v16"
+    },
+    "file": {
+      "line": "M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zm0 0V8h6",
+      "bold_accent": "M14 2v6h6",
+      "duo_accent": "M14 2v6h6"
+    },
+    "file-text": {
+      "line": "M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zm0 0V8h6M8 13h8M8 17h6",
+      "bold_accent": "M14 2v6h6",
+      "duo_accent": "M14 2v6h6"
+    },
+    "folder": {
+      "line": "M3 6v12a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6.5L10 4.5 9.5 4H5a2 2 0 00-2 2z",
+      "bold_accent": null,
+      "duo_accent": "M3 9h18v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+    },
+    "image": {
+      "line": "M4 4h16a1 1 0 011 1v14a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1zm5 6a1.5 1.5 0 110-3 1.5 1.5 0 010 3zM3 16l5-5 4 4 3-3 6 6",
+      "bold_accent": "M9 8.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z",
+      "duo_accent": "M3 16l5-5 4 4 3-3 6 6v2H3z"
+    },
+    "video": {
+      "line": "M3 7a2 2 0 012-2h9a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2zm13 2l5-3v12l-5-3z",
+      "bold_accent": "M16 9l5-3v12l-5-3z",
+      "duo_accent": "M16 9l5-3v12l-5-3z"
+    },
+    "music": {
+      "line": "M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z",
+      "bold_accent": "M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z",
+      "duo_accent": "M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z"
+    },
+    "link": {
+      "line": "M10 13a5 5 0 007.5.5l.5-.5a5 5 0 000-7l-1-1a5 5 0 00-7 0l-.5.5M14 11a5 5 0 00-7.5-.5l-.5.5a5 5 0 000 7l1 1a5 5 0 007 0l.5-.5",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "bookmark": {
+      "line": "M5 4a2 2 0 012-2h10a2 2 0 012 2v18l-7-4-7 4z",
+      "bold_accent": null,
+      "duo_accent": "M5 4a2 2 0 012-2h10a2 2 0 012 2v18l-7-4-7 4z"
+    },
+    "tag": {
+      "line": "M3 7.5V3h4.5l10 10-4.5 4.5zm3-2a1 1 0 100 2 1 1 0 000-2z",
+      "bold_accent": "M6 5.5a1 1 0 100 2 1 1 0 000-2z",
+      "duo_accent": "M3 3h4.5l10 10-4.5 4.5-10-10z"
+    },
+    "clipboard": {
+      "line": "M8 3h1a2 2 0 014 0h1a1 1 0 011 1v1H7V4a1 1 0 011-1zM6 5h12a1 1 0 011 1v14a1 1 0 01-1 1H6a1 1 0 01-1-1V6a1 1 0 011-1z",
+      "bold_accent": "M8 3h1a2 2 0 014 0h1a1 1 0 011 1v1H7V4a1 1 0 011-1z",
+      "duo_accent": "M5 6h14v15H5z"
+    },
+    "mail": {
+      "line": "M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm0 0l9 7 9-7",
+      "bold_accent": null,
+      "duo_accent": "M2 6l10 7 10-7v12a1 1 0 01-1 1H3a1 1 0 01-1-1z"
+    },
+    "send": {
+      "line": "M22 2L11 13M22 2l-7 20-4-9-9-4z",
+      "bold_accent": null,
+      "duo_accent": "M22 2l-7 20-4-9-9-4z"
+    },
+    "message": {
+      "line": "M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.5 8.5 0 018 8z",
+      "bold_accent": null,
+      "duo_accent": "M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.5 8.5 0 018 8z"
+    },
+    "phone": {
+      "line": "M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014 2h3a2 2 0 012 1.7 12.7 12.7 0 00.7 2.8 2 2 0 01-.5 2.1L8 9.7a16 16 0 006.3 6.3l1.1-1.1a2 2 0 012.1-.5 12.7 12.7 0 002.8.7A2 2 0 0122 17z",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "bell": {
+      "line": "M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0",
+      "bold_accent": null,
+      "duo_accent": "M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9z"
+    },
+    "chat": {
+      "line": "M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z",
+      "bold_accent": null,
+      "duo_accent": "M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+    },
+    "settings": {
+      "line": "M12 15a3 3 0 110-6 3 3 0 010 6zm7.4-3.2l1.3 1a.5.5 0 01.1.6l-1.4 2.4a.5.5 0 01-.6.2l-1.5-.6a7 7 0 01-1.6 1l-.2 1.6a.5.5 0 01-.5.4h-2.8a.5.5 0 01-.5-.4l-.3-1.7a7 7 0 01-1.5-.9l-1.5.6a.5.5 0 01-.6-.2L5.3 13a.5.5 0 01.1-.6l1.3-1a5.4 5.4 0 010-2l-1.3-1a.5.5 0 01-.1-.6l1.3-2.4a.5.5 0 01.6-.2l1.5.6a7 7 0 011.6-1l.2-1.6a.5.5 0 01.5-.4h2.8a.5.5 0 01.5.4l.3 1.7a7 7 0 011.5.9l1.5-.6a.5.5 0 01.6.2l1.4 2.4a.5.5 0 01-.1.6l-1.3 1a5.4 5.4 0 010 2z",
+      "bold_accent": "M12 15a3 3 0 110-6 3 3 0 010 6z",
+      "duo_accent": "M12 15a3 3 0 110-6 3 3 0 010 6z"
+    },
+    "user": {
+      "line": "M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 110-8 4 4 0 010 8z",
+      "bold_accent": "M12 11a4 4 0 110-8 4 4 0 010 8z",
+      "duo_accent": "M4 21v-2a4 4 0 014-4h8a4 4 0 014 4v2"
+    },
+    "users": {
+      "line": "M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 110-8 4 4 0 010 8zm14 10v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8",
+      "bold_accent": "M9 11a4 4 0 110-8 4 4 0 010 8z",
+      "duo_accent": "M1 21v-2a4 4 0 014-4h8a4 4 0 014 4v2"
+    },
+    "lock": {
+      "line": "M5 11h14a1 1 0 011 1v8a1 1 0 01-1 1H5a1 1 0 01-1-1v-8a1 1 0 011-1zm2 0V7a5 5 0 0110 0v4",
+      "bold_accent": "M12 15a1 1 0 110-2 1 1 0 010 2z",
+      "duo_accent": "M4 12h16v8a1 1 0 01-1 1H5a1 1 0 01-1-1z"
+    },
+    "unlock": {
+      "line": "M5 11h14a1 1 0 011 1v8a1 1 0 01-1 1H5a1 1 0 01-1-1v-8a1 1 0 011-1zm12 0V7A5 5 0 007.3 5",
+      "bold_accent": "M12 15a1 1 0 110-2 1 1 0 010 2z",
+      "duo_accent": "M4 12h16v8a1 1 0 01-1 1H5a1 1 0 01-1-1z"
+    },
+    "eye": {
+      "line": "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 15a3 3 0 110-6 3 3 0 010 6z",
+      "bold_accent": "M12 15a3 3 0 110-6 3 3 0 010 6z",
+      "duo_accent": "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+    },
+    "eye-off": {
+      "line": "M17.9 17.9A10.1 10.1 0 0112 20c-7 0-11-8-11-8a18.5 18.5 0 015.1-5.9M9.9 4.2A9.1 9.1 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.2 3.1m-6.8-.1a3 3 0 01-4.2-4.2M1 1l22 22",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "star": {
+      "line": "M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z",
+      "bold_accent": null,
+      "duo_accent": "M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"
+    },
+    "heart": {
+      "line": "M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1 1.1L12 21.3l7.8-7.8 1-1.1a5.5 5.5 0 000-7.8z",
+      "bold_accent": null,
+      "duo_accent": "M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1 1.1L12 21.3l7.8-7.8 1-1.1a5.5 5.5 0 000-7.8z"
+    },
+    "info": {
+      "line": "M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10zM12 16v-4m0-4h.01",
+      "bold_accent": null,
+      "duo_accent": "M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10z"
+    },
+    "warning": {
+      "line": "M10.3 3.9L1.8 18.4a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0zM12 9v4m0 4h.01",
+      "bold_accent": null,
+      "duo_accent": "M1.8 18.4L10.3 3.9a2 2 0 013.4 0l8.5 14.5a2 2 0 01-1.7 3h-17a2 2 0 01-1.7-3z"
+    },
+    "help": {
+      "line": "M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10zM9.1 9a3 3 0 015.8 1c0 2-3 3-3 3m.1 4h.01",
+      "bold_accent": null,
+      "duo_accent": "M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10z"
+    },
+    "monitor": {
+      "line": "M3 4h18a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1zm5 16h8m-4-4v4",
+      "bold_accent": null,
+      "duo_accent": "M2 5a1 1 0 011-1h18a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1z"
+    },
+    "smartphone": {
+      "line": "M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2zM12 18h.01",
+      "bold_accent": null,
+      "duo_accent": "M5 4a2 2 0 012-2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2z"
+    },
+    "globe": {
+      "line": "M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10zM2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z",
+      "bold_accent": null,
+      "duo_accent": "M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10z"
+    },
+    "wifi": {
+      "line": "M5 12.6a14 14 0 0114 0M8.5 16.1a8.4 8.4 0 017 0M12 19.5h.01M1.5 9a18 18 0 0121 0",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "cloud": {
+      "line": "M18 10h-1.3A8 8 0 109 20h9a5 5 0 000-10z",
+      "bold_accent": null,
+      "duo_accent": "M18 10h-1.3A8 8 0 109 20h9a5 5 0 000-10z"
+    },
+    "database": {
+      "line": "M12 8c4.4 0 8-1.3 8-3s-3.6-3-8-3-8 1.3-8 3 3.6 3 8 3zM20 12c0 1.7-3.6 3-8 3s-8-1.3-8-3M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5",
+      "bold_accent": null,
+      "duo_accent": "M4 5c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"
+    },
+    "code": {
+      "line": "M16 18l6-6-6-6M8 6l-6 6 6 6",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "terminal": {
+      "line": "M4 17l6-5-6-5m8 14h8",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "grid": {
+      "line": "M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm11 0h7v7h-7z",
+      "bold_accent": null,
+      "duo_accent": "M3 3h7v7H3zm11 0h7v7h-7z"
+    },
+    "list": {
+      "line": "M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "layers": {
+      "line": "M12 2L2 7l10 5 10-5zm0 15l-10-5m10 5l10-5M2 12l10 5 10-5",
+      "bold_accent": null,
+      "duo_accent": "M2 7l10 5 10-5-10-5z"
+    },
+    "sidebar": {
+      "line": "M3 3h18a1 1 0 011 1v16a1 1 0 01-1 1H3a1 1 0 01-1-1V4a1 1 0 011-1zm6 0v18",
+      "bold_accent": null,
+      "duo_accent": "M2 4a1 1 0 011-1h6v18H3a1 1 0 01-1-1z"
+    },
+    "maximize": {
+      "line": "M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "minimize": {
+      "line": "M8 3v3a2 2 0 01-2 2H3m18 0h-3a2 2 0 01-2-2V3m0 18v-3a2 2 0 012-2h3M3 16h3a2 2 0 012 2v3",
+      "bold_accent": null,
+      "duo_accent": null
+    },
+    "clock": {
+      "line": "M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10zM12 6v6l4 2",
+      "bold_accent": null,
+      "duo_accent": "M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10z"
+    },
+    "calendar": {
+      "line": "M4 5h16a1 1 0 011 1v14a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1zm4-3v4m8-4v4M3 10h18",
+      "bold_accent": null,
+      "duo_accent": "M3 10h18v10a1 1 0 01-1 1H4a1 1 0 01-1-1z"
+    },
+    "timer": {
+      "line": "M12 21a8 8 0 110-16 8 8 0 010 16zM12 9v4l2 2M10 2h4m-2 0v3",
+      "bold_accent": null,
+      "duo_accent": "M12 21a8 8 0 110-16 8 8 0 010 16z"
+    }
+  }
+}

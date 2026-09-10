@@ -1,0 +1,56 @@
+{
+  "name": "lombokicons",
+  "version": "0.1.0",
+  "description": "Dimensional icon system — line, bold, and duo-tone SVG icons with CSS custom properties. Zero font files, tree-shakeable, framework-agnostic.",
+  "keywords": [
+    "icons",
+    "svg",
+    "icon-font",
+    "duo-tone",
+    "web-icons",
+    "css-icons",
+    "lombokicons",
+    "codinglombok"
+  ],
+  "homepage": "https://github.com/codinglombok/LombokIcons",
+  "bugs": {
+    "url": "https://github.com/codinglombok/LombokIcons/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "codinglombok",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codinglombok/LombokIcons.git"
+  },
+  "main": "dist/js/lombokicons.cjs",
+  "module": "dist/js/lombokicons.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/js/lombokicons.mjs",
+      "require": "./dist/js/lombokicons.cjs"
+    },
+    "./css": "./dist/css/lombokicons.css",
+    "./css/min": "./dist/css/lombokicons.min.css",
+    "./svg/*": "./dist/svg/*",
+    "./catalog": "./dist/catalog.json"
+  },
+  "files": [
+    "dist/",
+    "src/icons.json",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node scripts/build.js",
+    "lint": "echo 'no lint configured'",
+    "test": "node scripts/test.js",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

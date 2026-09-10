@@ -1,0 +1,186 @@
+# Publish to GitHub Packages — LombokIcons
+# Publishes to 5 registries: npm (GPR), Container (ghcr.io), Maven, NuGet, RubyGems
+
+name: Publish to GitHub Packages
+
+permissions: {}
+
+on:
+  workflow_call:
+
+jobs:
+  publish-gpr:
+    name: npm (GPR)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
+        with:
+          node-version: 24
+          registry-url: https://npm.pkg.github.com
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Set version from tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
+      - run: npm publish --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-container:
+    name: Container (ghcr.io)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - name: Set version from tag
+        id: ver
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+      - name: Generate Dockerfile
+        run: |
+          cat > Dockerfile << 'EOF'
+          FROM node:24-alpine AS build
+          WORKDIR /app
+          COPY package*.json ./
+          COPY README.md ./
+          RUN npm ci --ignore-scripts
+          COPY . .
+          RUN npm run build
+          FROM scratch
+          COPY --from=build /app/dist /dist
+          COPY --from=build /app/README.md /README.md
+          COPY --from=build /app/LICENSE /LICENSE
+          EOF
+      - uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75 # v6
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/lombokicons:${{ steps.ver.outputs.version }},ghcr.io/${{ github.repository_owner }}/lombokicons:latest
+
+  publish-maven:
+    name: Maven (webjar)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - name: Set version from tag
+        id: ver
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+      - uses: actions/setup-java@6a0805fcefea3d4657a47b412e4b8f5302c58e78 # v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Generate POM
+        run: |
+          mkdir -p src/main/resources/META-INF/resources/webjars/lombokicons/${{ steps.ver.outputs.version }}
+          cp -r dist/* src/main/resources/META-INF/resources/webjars/lombokicons/${{ steps.ver.outputs.version }}/
+          cat > pom.xml << EOF
+          <project>
+            <modelVersion>4.0.0</modelVersion>
+            <groupId>com.github.codinglombok</groupId>
+            <artifactId>lombokicons</artifactId>
+            <version>${{ steps.ver.outputs.version }}</version>
+            <packaging>jar</packaging>
+            <distributionManagement>
+              <repository>
+                <id>github</id>
+                <url>https://maven.pkg.github.com/codinglombok/LombokIcons</url>
+              </repository>
+            </distributionManagement>
+          </project>
+          EOF
+      - run: mvn deploy -DaltDeploymentRepository=github::https://maven.pkg.github.com/codinglombok/LombokIcons
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-nuget:
+    name: NuGet
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - name: Set version from tag
+        id: ver
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+      - uses: actions/setup-dotnet@6bd8b7f7774af54e05809fcc5431931b3eb1ddee # v4
+        with:
+          dotnet-version: 8.x
+      - name: Generate nuspec & pack
+        run: |
+          cat > lombokicons.nuspec << EOF
+          <?xml version="1.0"?>
+          <package>
+            <metadata>
+              <id>codinglombok.LombokIcons</id>
+              <version>${{ steps.ver.outputs.version }}</version>
+              <authors>codinglombok</authors>
+              <description>Dimensional Clarity SVG Icon System — 69 icons × 3 modes</description>
+              <license type="expression">Apache-2.0</license>
+              <projectUrl>https://github.com/codinglombok/LombokIcons</projectUrl>
+              <repository type="git" url="https://github.com/codinglombok/LombokIcons.git" />
+            </metadata>
+            <files>
+              <file src="dist/**" target="content/lombokicons" />
+              <file src="README.md" target="" />
+              <file src="LICENSE" target="" />
+            </files>
+          </package>
+          EOF
+          nuget pack lombokicons.nuspec
+      - run: dotnet nuget push "*.nupkg" --source "https://nuget.pkg.github.com/codinglombok/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}
+
+  publish-rubygems:
+    name: RubyGems
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - uses: ruby/setup-ruby@a6e6f86333f0a2523ece813039b8b4be04560854 # v1
+        with:
+          ruby-version: 3.3
+      - name: Set version from tag
+        id: ver
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+      - name: Generate gemspec & build
+        run: |
+          mkdir -p lib/lombokicons
+          cat > lib/lombokicons.rb << 'RUBY'
+          module LombokIcons
+            VERSION = "${{ steps.ver.outputs.version }}"
+          end
+          RUBY
+          cat > lombokicons.gemspec << 'GEM'
+          Gem::Specification.new do |s|
+            s.name        = "lombokicons"
+            s.version     = "${{ steps.ver.outputs.version }}"
+            s.summary     = "Dimensional Clarity SVG Icon System"
+            s.authors     = ["codinglombok"]
+            s.license     = "Apache-2.0"
+            s.homepage    = "https://github.com/codinglombok/LombokIcons"
+            s.files       = Dir["dist/**/*"] + Dir["lib/**/*"] + ["README.md", "LICENSE"]
+          end
+          GEM
+          gem build lombokicons.gemspec
+      - name: Push to GPR
+        run: |
+          gem push --key github --host https://rubygems.pkg.github.com/codinglombok lombokicons-*.gem
+        env:
+          GEM_HOST_API_KEY: "Bearer ${{ secrets.GITHUB_TOKEN }}"

@@ -1,0 +1,44 @@
+# Release Please — LombokIcons
+# Automated versioning and changelog via conventional commits
+
+name: Release Please
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release-please:
+    name: Release Please
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - uses: googleapis/release-please-action@7987652d64b4581673a76e33ad5e98e3dd56571f # v4
+        id: release
+        with:
+          release-type: node
+
+  publish:
+    name: Publish
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    uses: ./.github/workflows/npm-publish.yml
+    secrets: inherit
+
+  packages:
+    name: GitHub Packages
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    uses: ./.github/workflows/publish-packages.yml
+    permissions:
+      contents: read
+      packages: write
+    secrets: inherit
