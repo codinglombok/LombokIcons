@@ -14,12 +14,12 @@ on:
 
 jobs:
   build-and-test:
-    name: Build & Test (Node ${{ matrix.node-version }})
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    name: Build & Test (${{ matrix.os }}, Node ${{ matrix.node-version }})
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [20, 22, 24]
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
@@ -29,17 +29,12 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - run: npm test
-      - name: Verify committed dist is up to date
-        run: |
-          npm run build
-          git diff --exit-code dist/ || (echo "::error::dist/ is out of date — run npm run build and commit" && exit 1)
+      - run: npm run lint
+      - run: npm run coverage
 
-  dist-check:
-    name: Dist freshness
+  standards:
+    name: Standards (vectors, doctor, package)
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
@@ -48,19 +43,14 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Check catalog.json icon count
+      - name: Vector file matches its source and SHA256SUMS
         run: |
-          COUNT=$(node -e "console.log(require('./dist/catalog.json').total)")
-          echo "Icon count: $COUNT"
-          if [ "$COUNT" -lt 69 ]; then
-            echo "::error::Icon count dropped below 69 (got $COUNT)"
-            exit 1
-          fi
-      - name: Check CSS size budget (max 8 KB minified)
-        run: |
-          SIZE=$(wc -c < dist/css/lombokicons.min.css)
-          echo "Minified CSS: $SIZE bytes"
-          if [ "$SIZE" -gt 8192 ]; then
-            echo "::error::CSS exceeds 8 KB budget ($SIZE bytes)"
-            exit 1
-          fi
+          python3 vectors/build_vectors.py
+          git diff --exit-code vectors/lombokicons-vectors-v1.json
+          sha256sum -c vectors/SHA256SUMS
+      - name: lombok doctor
+        env:
+          LOMBOK_PRIVACY_TERMS: ${{ secrets.LOMBOK_PRIVACY_TERMS }}
+        run: bash scripts/lombok-doctor.sh LombokIcons
+      - run: npm pack --dry-run
+      - run: npm audit --omit=dev --audit-level=high

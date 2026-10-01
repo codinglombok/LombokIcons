@@ -3,3 +3,8 @@ dist/
 internal/
 *.tgz
 .DS_Store
+# Dokumen internal Lombok Ecosystem (v3.6, ADR-024) - tidak di-commit
+/map
+/docs/*architecture*.*
+/docs/*masterplan*.*
+coverage/

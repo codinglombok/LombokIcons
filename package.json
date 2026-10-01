@@ -1,16 +1,17 @@
 {
   "name": "lombokicons",
-  "version": "0.1.0",
-  "description": "Dimensional icon system — line, bold, and duo-tone SVG icons with CSS custom properties. Zero font files, tree-shakeable, framework-agnostic.",
+  "version": "0.2.0",
+  "description": "SVG icon set with three render modes (line, bold, duo-tone) driven by CSS custom properties: static SVGs, sprites, CSS, and a tree-shakeable JS API. Zero dependencies. Part of the Lombok Ecosystem.",
   "keywords": [
     "icons",
     "svg",
-    "icon-font",
+    "svg-icons",
     "duo-tone",
-    "web-icons",
-    "css-icons",
-    "lombokicons",
-    "codinglombok"
+    "css-custom-properties",
+    "sprite",
+    "tree-shakeable",
+    "zero-dependency",
+    "lombok-ecosystem"
   ],
   "homepage": "https://github.com/codinglombok/LombokIcons",
   "bugs": {
@@ -24,30 +25,50 @@
   },
   "main": "dist/js/lombokicons.cjs",
   "module": "dist/js/lombokicons.mjs",
+  "types": "dist/js/lombokicons.d.mts",
   "exports": {
     ".": {
-      "import": "./dist/js/lombokicons.mjs",
-      "require": "./dist/js/lombokicons.cjs"
+      "import": {
+        "types": "./dist/js/lombokicons.d.mts",
+        "default": "./dist/js/lombokicons.mjs"
+      },
+      "require": {
+        "types": "./dist/js/lombokicons.d.cts",
+        "default": "./dist/js/lombokicons.cjs"
+      }
     },
     "./css": "./dist/css/lombokicons.css",
     "./css/min": "./dist/css/lombokicons.min.css",
     "./svg/*": "./dist/svg/*",
-    "./catalog": "./dist/catalog.json"
+    "./catalog": "./dist/catalog.json",
+    "./package.json": "./package.json"
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "files": [
     "dist/",
     "src/icons.json",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "node scripts/build.js",
-    "lint": "echo 'no lint configured'",
-    "test": "node scripts/test.js",
+    "test": "node --test",
+    "coverage": "node --test --experimental-test-coverage --test-coverage-lines=90 --test-coverage-branches=90 --test-coverage-functions=85",
+    "lint": "tsc -p tsconfig.check.json",
+    "vectors": "python3 vectors/build_vectors.py",
+    "doctor": "bash scripts/lombok-doctor.sh LombokIcons",
+    "check": "npm run build && npm run lint && npm run coverage && npm run doctor",
     "prepublishOnly": "npm run build"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "typescript": "^5.9.3"
   },
   "publishConfig": {
     "access": "public",

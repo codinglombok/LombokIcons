@@ -11,10 +11,38 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const SRC = path.join(ROOT, 'src');
 const DIST = path.join(ROOT, 'dist');
+const VERSION = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).version;
 
 // ─── Load icon registry ──────────────────────────────────────
 const registry = JSON.parse(fs.readFileSync(path.join(SRC, 'icons.json'), 'utf8'));
 const { meta, icons, categories } = registry;
+
+// ─── Validate registry (SPEC §2) ─────────────────────────────
+const RE_NAME = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
+const RE_PATH = /^[MmLlHhVvCcSsQqTtAaZz0-9 .,eE+-]+$/;
+function validateRegistry() {
+  const errors = [];
+  const seen = new Map();
+  for (const [cat, names] of Object.entries(categories)) {
+    for (const n of names) {
+      if (seen.has(n)) errors.push(`${n} listed in ${seen.get(n)} and ${cat}`);
+      seen.set(n, cat);
+      if (!icons[n]) errors.push(`category ${cat} lists unknown icon ${n}`);
+    }
+  }
+  for (const [name, data] of Object.entries(icons)) {
+    if (!RE_NAME.test(name)) errors.push(`invalid icon name ${name}`);
+    if (!seen.has(name)) errors.push(`${name} has no category`);
+    if (typeof data.line !== 'string' || !RE_PATH.test(data.line)) errors.push(`${name}: invalid line path`);
+    for (const k of ['bold_accent', 'duo_accent']) {
+      if (data[k] !== null && (typeof data[k] !== 'string' || !RE_PATH.test(data[k]))) errors.push(`${name}: invalid ${k}`);
+    }
+  }
+  if (errors.length) {
+    console.error(errors.join('\n'));
+    process.exit(1);
+  }
+}
 
 // ─── Helpers ─────────────────────────────────────────────────
 function ensureDir(dir) {
@@ -64,7 +92,7 @@ function buildIndividualSVGs() {
     fs.writeFileSync(path.join(DIST, 'svg', 'duo', `${name}.svg`), duoSvg);
   }
 
-  console.log(`  ✓ ${Object.keys(icons).length * 3} individual SVGs`);
+  console.log(`  ok ${Object.keys(icons).length * 3} individual SVGs`);
 }
 
 // ─── Generate SVG sprite ─────────────────────────────────────
@@ -96,110 +124,52 @@ function buildSprite() {
     fs.writeFileSync(path.join(DIST, 'svg', `lombokicons-${mode}.svg`), sprite);
   }
 
-  console.log(`  ✓ 3 SVG sprites (line/bold/duo)`);
+  console.log(`  ok 3 SVG sprites (line/bold/duo)`);
 }
 
-// ─── Generate JS module ──────────────────────────────────────
+// ─── Generate JS modules + types ─────────────────────────────
+function camel(name) {
+  return 'lf' + name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('');
+}
+
+function iconLiteral(name, data) {
+  const q = v => (v ? `'${v}'` : 'null');
+  return `{ name: '${name}', line: '${data.line}', bold_accent: ${q(data.bold_accent)}, duo_accent: ${q(data.duo_accent)} }`;
+}
+
 function buildJSModule() {
   ensureDir(path.join(DIST, 'js'));
-  
-  // ESM
-  let esm = `// LombokIcons v0.1.0 — ESM\n// Apache-2.0 — codinglombok\n\n`;
-  
-  // Icon data export
-  esm += `export const icons = {};\n\n`;
-  
-  for (const [name, data] of Object.entries(icons)) {
-    const camelName = 'lf' + name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('');
-    
-    esm += `export const ${camelName} = {\n`;
-    esm += `  name: '${name}',\n`;
-    esm += `  line: '${data.line}',\n`;
-    esm += `  bold_accent: ${data.bold_accent ? `'${data.bold_accent}'` : 'null'},\n`;
-    esm += `  duo_accent: ${data.duo_accent ? `'${data.duo_accent}'` : 'null'},\n`;
-    esm += `};\nicons['${name}'] = ${camelName};\n\n`;
-  }
-  
-  // Render function
-  esm += `/**
- * Render an icon as an SVG string.
- * @param {string} name — Icon name (e.g. 'home', 'arrow-up')
- * @param {Object} opts
- * @param {'line'|'bold'|'duo'} opts.mode — Rendering mode (default: 'line')
- * @param {string} opts.size — CSS size (default: '1.25em')
- * @param {string} opts.class — Extra CSS classes
- * @param {string} opts.color — Override color
- * @returns {string} SVG markup
- */
-export function renderIcon(name, opts = {}) {
-  const icon = icons[name];
-  if (!icon) return '';
-  
-  const mode = opts.mode || 'line';
-  const size = opts.size || '1.25em';
-  const cls = opts.class || '';
-  const color = opts.color ? \` style="--lf-color:\${opts.color}"\` : '';
-  
-  let inner = '';
-  
-  if (mode === 'duo' && icon.duo_accent) {
-    inner += \`<path d="\${icon.duo_accent}" class="lf-accent" fill="currentColor" opacity="0.32" stroke="none"/>\`;
-  }
-  
-  inner += \`<path d="\${icon.line}"/>\`;
-  
-  if (mode === 'bold' && icon.bold_accent) {
-    inner += \`<path d="\${icon.bold_accent}" class="lf-bold-fill" fill="currentColor" stroke="none"/>\`;
-  }
-  
-  return \`<span class="lf \${cls}"\${color}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">\${inner}</svg></span>\`;
-}
+  const runtime = fs.readFileSync(path.join(SRC, 'js', 'runtime.js'), 'utf8');
+  const names = Object.keys(icons);
+  const header = `// LombokIcons v${VERSION}\n// Apache-2.0 — codinglombok\n`;
 
-/**
- * Replace all <i data-lf="name"> elements with rendered SVG icons.
- * @param {Element} root — Container to scan (default: document.body)
- * @param {'line'|'bold'|'duo'} mode — Default rendering mode
- */
-export function replaceIcons(root, mode = 'line') {
-  const el = root || document.body;
-  const targets = el.querySelectorAll('[data-lf]');
-  
-  targets.forEach(target => {
-    const name = target.getAttribute('data-lf');
-    const iconMode = target.getAttribute('data-lf-mode') || mode;
-    const cls = target.className || '';
-    const html = renderIcon(name, { mode: iconMode, class: cls });
-    
-    if (html) {
-      const temp = document.createElement('div');
-      temp.innerHTML = html;
-      const newEl = temp.firstChild;
-      target.replaceWith(newEl);
-    }
-  });
-}
-
-export const version = '0.1.0';
-export const count = ${Object.keys(icons).length};
-export const categoryMap = ${JSON.stringify(categories, null, 2)};
-`;
-
+  // ESM: every icon is a standalone constant so bundlers can drop unused ones.
+  let esm = header + '\n';
+  for (const name of names) esm += `export const ${camel(name)} = /*#__PURE__*/ Object.freeze(${iconLiteral(name, icons[name])});\n`;
+  esm += `\nexport const icons = /*#__PURE__*/ Object.freeze({\n${names.map(n => `  '${n}': ${camel(n)},`).join('\n')}\n});\n`;
+  esm += `export const categoryMap = /*#__PURE__*/ Object.freeze(${JSON.stringify(categories)});\n`;
+  esm += `export const count = ${names.length};\nexport const version = '${VERSION}';\n\n`;
+  esm += runtime;
+  esm += `\nexport { escapeAttr, isValidSize, isValidColor, renderIconData, renderIcon, replaceIcons };\n`;
   fs.writeFileSync(path.join(DIST, 'js', 'lombokicons.mjs'), esm);
-  
-  // CJS
-  let cjs = `// LombokIcons v0.1.0 — CJS\n// Apache-2.0 — codinglombok\n'use strict';\n\n`;
-  cjs += `const icons = {};\n\n`;
-  
-  for (const [name, data] of Object.entries(icons)) {
-    const camelName = 'lf' + name.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('');
-    cjs += `const ${camelName} = { name: '${name}', line: '${data.line}', bold_accent: ${data.bold_accent ? `'${data.bold_accent}'` : 'null'}, duo_accent: ${data.duo_accent ? `'${data.duo_accent}'` : 'null'} };\nicons['${name}'] = ${camelName};\n`;
-  }
-  
-  cjs += `\nmodule.exports = { icons, version: '0.1.0', count: ${Object.keys(icons).length} };\n`;
-  
+
+  // CJS: same API.
+  let cjs = header + "'use strict';\n\n";
+  for (const name of names) cjs += `const ${camel(name)} = Object.freeze(${iconLiteral(name, icons[name])});\n`;
+  cjs += `\nconst icons = Object.freeze({\n${names.map(n => `  '${n}': ${camel(n)},`).join('\n')}\n});\n`;
+  cjs += `const categoryMap = Object.freeze(${JSON.stringify(categories)});\n`;
+  cjs += `const count = ${names.length};\nconst version = '${VERSION}';\n\n`;
+  cjs += runtime;
+  cjs += `\nmodule.exports = {\n  icons, categoryMap, count, version,\n  escapeAttr, isValidSize, isValidColor, renderIconData, renderIcon, replaceIcons,\n${names.map(n => `  ${camel(n)},`).join('\n')}\n};\n`;
   fs.writeFileSync(path.join(DIST, 'js', 'lombokicons.cjs'), cjs);
-  
-  console.log(`  ✓ JS modules (ESM + CJS)`);
+
+  // Types
+  let dts = fs.readFileSync(path.join(SRC, 'js', 'lombokicons.d.ts'), 'utf8');
+  dts += '\n' + names.map(n => `export declare const ${camel(n)}: IconData`).join('\n') + '\n';
+  fs.writeFileSync(path.join(DIST, 'js', 'lombokicons.d.mts'), dts);
+  fs.writeFileSync(path.join(DIST, 'js', 'lombokicons.d.cts'), dts);
+
+  console.log(`  ok JS modules (ESM + CJS) and type declarations`);
 }
 
 // ─── Copy & minify CSS ───────────────────────────────────────
@@ -223,13 +193,13 @@ function buildCSS() {
   
   fs.writeFileSync(path.join(DIST, 'css', 'lombokicons.min.css'), min);
   
-  console.log(`  ✓ CSS (${(css.length / 1024).toFixed(1)}KB → ${(min.length / 1024).toFixed(1)}KB min)`);
+  console.log(`  ok CSS (${(css.length / 1024).toFixed(1)}KB → ${(min.length / 1024).toFixed(1)}KB min)`);
 }
 
 // ─── Generate icon catalog ───────────────────────────────────
 function buildCatalog() {
   const catalog = {
-    version: '0.1.0',
+    version: VERSION,
     total: Object.keys(icons).length,
     categories: {},
     icons: []
@@ -250,12 +220,13 @@ function buildCatalog() {
   }
   
   fs.writeFileSync(path.join(DIST, 'catalog.json'), JSON.stringify(catalog, null, 2));
-  console.log(`  ✓ catalog.json`);
+  console.log(`  ok catalog.json`);
 }
 
 // ─── Main ────────────────────────────────────────────────────
-console.log('🔧 LombokIcons Build\n');
+console.log('LombokIcons Build\n');
 
+validateRegistry();
 ensureDir(DIST);
 buildIndividualSVGs();
 buildSprite();
@@ -263,4 +234,4 @@ buildJSModule();
 buildCSS();
 buildCatalog();
 
-console.log(`\n✅ Done — ${Object.keys(icons).length} icons × 3 modes = ${Object.keys(icons).length * 3} variants`);
+console.log(`\nDone — ${Object.keys(icons).length} icons × 3 modes = ${Object.keys(icons).length * 3} variants`);
