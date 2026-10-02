@@ -5,12 +5,12 @@ import { spawnSync } from 'node:child_process'
 
 const MIN = { line: 90, branch: 90, funcs: 85 }
 
-const run = spawnSync(process.execPath, ['--test', '--experimental-test-coverage'], { encoding: 'utf8' })
+const run = spawnSync(process.execPath, ['--test', '--test-reporter=tap', '--experimental-test-coverage'], { encoding: 'utf8' })
 process.stdout.write(run.stdout)
 process.stderr.write(run.stderr)
 if (run.status !== 0) process.exit(run.status ?? 1)
 
-const row = run.stdout.split(/\r?\n/).find(l => /^#\s*all files\s*\|/.test(l))
+const row = run.stdout.split(/\r?\n/).find(l => /^(?:#|ℹ)?\s*all files\s*\|/.test(l))
 if (!row) {
   console.error('coverage: "all files" row not found in the report')
   process.exit(1)
